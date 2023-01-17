@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -17,7 +18,11 @@ class LoginPage extends StatelessWidget {
   final passwordController = TextEditingController();
 
   //sign user in method
-  void signUserIn() {}
+  void signUserIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: usernameController.text, password: passwordController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +71,14 @@ class LoginPage extends StatelessWidget {
                   obscureText: true),
 
               const SizedBox(height: 15),
+
+              //sign in button
+              MyButton(
+                onTap: signUserIn,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
               // forgot password
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -79,11 +92,7 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 25,
-              ),
-              //sign in button
-              MyButton(onTap: signUserIn),
+
               //continue with
               const SizedBox(
                 height: 50,
